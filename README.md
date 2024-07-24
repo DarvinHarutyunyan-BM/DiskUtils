@@ -2,6 +2,8 @@
 
 ## Prepare
 ```bash
+mkdir /var/log/disk_usage
+
 sudo cp log_disk_usage.sh /usr/local/bin/log_disk_usage.sh
 chmod +x /usr/local/bin/log_disk_usage.sh
 
