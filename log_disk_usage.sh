@@ -1,11 +1,18 @@
 #!/bin/bash
 
-# Log file
-LOG_FILE="/var/log/disk_usage/disk_usage.log"
+# Array of mount points
+DISKS=("/" "/mnt/disk1" "/mnt/disk2" "/mnt/disk3")
 
-# Get the current date and disk usage
+# Get the current date
 DATE=$(date +"%Y-%m-%d %H:%M:%S")
-USAGE=$(df / | grep / | awk '{ print $5 }' | sed 's/%//g')
 
-# Write to the log file
-echo "$DATE $USAGE" >> $LOG_FILE
+for DISK in "${DISKS[@]}"; do
+    # Log file for the current disk
+    LOG_FILE="/var/log/disk_usage/$(basename $DISK).log"
+
+    # Get the current disk usage
+    USAGE=$(df $DISK | grep -v Filesystem | awk '{ print $5 }' | sed 's/%//g')
+
+    # Write to the log file
+    echo "$DATE $USAGE" >> $LOG_FILE
+done
